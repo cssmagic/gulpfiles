@@ -22,7 +22,7 @@ availableTasks.forEach((item) => {
 	Object.defineProperty(builders, item, {
 		enumerable: true,
 		get: function () {
-			console.log('[Gulpfiles] lazyload: requiring ' + item + '...')
+			console.log('[Gulpfiles] lazy-loading module: "' + item + '"...')
 			return require('./' + item)
 		},
 	})

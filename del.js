@@ -7,7 +7,7 @@ module.exports = ({glob, options}) => {
 
 	return function () {
 		return del(glob, options).then(function (deletedFiles) {
-			const infoTitle = `[del] deleted: `
+			const infoTitle = `[Gulpfiles] [del] deleted: `
 			if (deletedFiles.length) {
 				console.log(infoTitle)
 				deletedFiles.forEach(function (item) {
