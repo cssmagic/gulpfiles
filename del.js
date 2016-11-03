@@ -1,14 +1,13 @@
 'use strict'
 
-module.exports = ({src, options}) => {
+module.exports = ({glob, options}) => {
 
 	const path = require('path')
-	const gulp = require('gulp')
 	const del = require('del')
 
-	gulp.task('clean', function () {
-		return del(src, options).then(function (deletedFiles) {
-			const infoTitle = '[clean] deleted: '
+	return function () {
+		return del(glob, options).then(function (deletedFiles) {
+			const infoTitle = `[del] deleted: `
 			if (deletedFiles.length) {
 				console.log(infoTitle)
 				deletedFiles.forEach(function (item) {
@@ -19,6 +18,6 @@ module.exports = ({src, options}) => {
 				console.log(infoTitle + '(no files).')
 			}
 		})
-	})
+	}
 
 }

@@ -12,10 +12,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "del": "2.*"
+  },
   "devDependencies": {
     "gulp": "github:gulpjs/gulp#4.0",
-    "del": "2.*",
     "gulp-stylus": "2.*",
     "gulp-concat": "2.*",
     "gulp-rename": "1.*",
