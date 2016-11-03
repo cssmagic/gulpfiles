@@ -11,7 +11,7 @@ module.exports = ({glob, options}) => {
 			if (deletedFiles.length) {
 				console.log(infoTitle)
 				deletedFiles.forEach(function (item) {
-					item = path.relative(__dirname, item)
+					item = path.relative(process.cwd(), item)
 					console.log('  - ' + item)
 				})
 			} else {
