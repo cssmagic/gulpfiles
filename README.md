@@ -1,7 +1,23 @@
 # Gulpfiles
 
-> Frequently used Gulp tasks.
+> Build Gulp tasks rapidly.
 
+## Usage
+
+```js
+// require this package
+var gulpfiles = require('gulpfiles')
+
+// define task, like this:
+gulp.task('clean', gulpfiles.del({
+	glob: './dist/*.*',
+}))
+
+// or like this:
+gulp.task('clean', gulpfiles('del', {
+	glob: './dist/*.*',
+}))
+```
 
 ***
 

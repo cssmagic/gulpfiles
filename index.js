@@ -1,10 +1,10 @@
 'use strict'
 
-function fn(name, config) {
+function builders(name, config) {
 	try {
-		let genTask = require('./' + name)
-		if (typeof genTask === 'function') {
-			return genTask(config)
+		let builder = builders[name]
+		if (typeof builder === 'function') {
+			return builder(config)
 		} else {
 			return () => {
 				console.error('[Gulpfiles] Invalid task builder: ' + name)
@@ -15,4 +15,17 @@ function fn(name, config) {
 	}
 }
 
-module.exports = fn
+const availableTasks = [
+	'del',
+]
+availableTasks.forEach((item) => {
+	Object.defineProperty(builders, item, {
+		enumerable: true,
+		get: function () {
+			console.log('[Gulpfiles] lazyload: requiring ' + item + '...')
+			return require('./' + item)
+		},
+	})
+})
+
+module.exports = builders
