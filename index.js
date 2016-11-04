@@ -17,6 +17,7 @@ function builders(name, config) {
 
 const availableTasks = [
 	'del',
+	'stylus',
 ]
 availableTasks.forEach((item) => {
 	Object.defineProperty(builders, item, {
