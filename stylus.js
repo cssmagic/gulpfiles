@@ -12,30 +12,36 @@ module.exports = ({src, dest, options = {}, config = {}}) => {
 	const isString = require('./util/is-string')
 
 	// util
-	function getFilename() {
+	function getFilename(src, dest) {
 		let file = ''
+		let simpleGlob = ''
 		if (isString(config.rename)) {
 			file = config.rename
 		} else {
-			// get original path
 			if (isString(src)) {
-				file = src
+				simpleGlob = src
 			} else if (Array.isArray(src) && src.length === 1) {
-				file = src[0]
-			}
-			// get relative path or just filename
-			if (!file.includes('*') && file.endsWith('.styl')) {
-				if (options.src && options.src.base) {
-					file = path.relative(options.src.base, file)
-				} else {
-					file = path.basename(file)
-				}
-				file = file.replace(/\.styl$/, '.css')
+				simpleGlob = src[0]
 			}
 		}
-		let destFile = options.dest && options.dest.cwd ?
-			path.resolve(options.dest.cwd, dest, file) :
-			path.resolve(dest, file)
+
+		if (simpleGlob) {
+			if (options.src && options.src.base) {
+				file = path.relative(options.src.base, simpleGlob)
+			} else {
+				file = path.basename(simpleGlob)
+			}
+		}
+
+		let destFile
+		if (file) {
+			file = file.replace(/\.styl$/, '.css')
+			destFile = options.dest && options.dest.cwd ?
+				path.resolve(options.dest.cwd, dest, file) :
+				path.resolve(dest, file)
+		} else {
+			destFile = path.join(dest, '*.css')
+		}
 		return path.relative(process.cwd(), destFile)
 	}
 
@@ -54,7 +60,7 @@ module.exports = ({src, dest, options = {}, config = {}}) => {
 			.pipe(gulp.dest(dest, options.dest))
 			.on('finish', function () {
 				// for pretty output
-				let file = getFilename()
+				let file = getFilename(src, dest)
 				// TODO: how to get file name from stream? (ToT)
 
 				console.log('[Gulpfiles] [stylus] compiling stylus: ' + src)
