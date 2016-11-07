@@ -5,6 +5,17 @@ module.exports = ({glob, options = {}}) => {
 	const path = require('path')
 	const del = require('del')
 
+	/*
+	glob = ''
+	options = {
+		// options for node-glob
+		'...': '...',
+		// options for del
+		force: true,
+		dryRun: false,
+	}
+	*/
+
 	return function () {
 		return del(glob, options).then(function (deletedFiles) {
 			const infoTitle = `[Gulpfiles] [del] deleted: `
