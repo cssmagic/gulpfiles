@@ -11,6 +11,17 @@ module.exports = ({src, dest, options = {}, config = {}}) => {
 
 	const isString = require('./util/is-string')
 
+	/*
+	options = {
+		src: {},
+		dest: {},
+	}
+	config = {
+		rename: '...',
+		'...': '...',
+	}
+	*/
+
 	// util
 	function getFilename(src, dest) {
 		let file = ''
