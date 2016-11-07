@@ -1,12 +1,12 @@
 'use strict'
 
-module.exports = ({files, options}) => {
+module.exports = ({glob, options = {}}) => {
 
 	const path = require('path')
 	const del = require('del')
 
 	return function () {
-		return del(files, options).then(function (deletedFiles) {
+		return del(glob, options).then(function (deletedFiles) {
 			const infoTitle = `[Gulpfiles] [del] deleted: `
 			if (deletedFiles.length) {
 				console.log(infoTitle)
