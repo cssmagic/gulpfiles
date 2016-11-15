@@ -18,12 +18,13 @@ module.exports = ({src, dest, options = {}, config = {}}) => {
 	}
 	config = {
 		rename: '...',
+		nib: false,
 		'...': '...',
 	}
 	*/
 
 	// util
-	function getFilename(src, dest) {
+	function getFilename() {
 		let file = ''
 		let simpleGlob = ''
 		if (isString(config.rename)) {
@@ -57,21 +58,26 @@ module.exports = ({src, dest, options = {}, config = {}}) => {
 	}
 
 	return function () {
-		const defaults = {
-			use: [nib()],
-			import: 'nib',
+		const cfg = {
 			linenos: false,
 			compress: false,
 			errors: true,
 		}
-		const cfg = Object.assign(defaults, config)
+		Object.assign(cfg, config)
+		if (config.nib) {
+			Object.assign(cfg, {
+				use: [nib()],
+				import: 'nib',
+			})
+		}
+
 		const stream = gulp.src(src, options.src)
 			.pipe(stylus(cfg))
 			.pipe(gulpIf(!!config.rename, rename(config.rename)))
 			.pipe(gulp.dest(dest, options.dest))
 			.on('finish', function () {
 				// for pretty output
-				let file = getFilename(src, dest)
+				let file = getFilename()
 				// TODO: how to get file name from stream? (ToT)
 
 				console.log('[Gulpfiles] [stylus] compiling stylus: ' + src)

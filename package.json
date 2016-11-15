@@ -1,6 +1,6 @@
 {
   "name": "gulpfiles",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "homepage": "https://github.com/cssmagic/gulpfiles",
   "author": "cssmagic <cssmagic.cn@gmail.com>",
   "description": "Build Gulp tasks rapidly.",
