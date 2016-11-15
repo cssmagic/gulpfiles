@@ -8,6 +8,7 @@ module.exports = ({src, dest, options = {}, config = {}}) => {
 	const rename = require('gulp-rename')
 	const gulpIf = require('gulp-if')
 	const nib = require('nib')
+	const brush = require('cmui-brush')
 
 	const isString = require('./util/is-string')
 
@@ -64,12 +65,15 @@ module.exports = ({src, dest, options = {}, config = {}}) => {
 			errors: true,
 		}
 		Object.assign(cfg, config)
+		let plugins = []
 		if (config.nib) {
-			Object.assign(cfg, {
-				use: [nib()],
-				import: 'nib',
-			})
+			plugins.push(nib())
+			cfg.import = 'nib'
 		}
+		if (config.brush) {
+			plugins.push(brush())
+		}
+		cfg.use = plugins
 
 		const stream = gulp.src(src, options.src)
 			.pipe(stylus(cfg))
