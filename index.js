@@ -20,12 +20,18 @@ const availableTasks = [
 	'stylus',
 	'concat',
 ]
+builders._cache = {}
+
 availableTasks.forEach((item) => {
 	Object.defineProperty(builders, item, {
 		enumerable: true,
 		get: function () {
-			console.log('[Gulpfiles] lazy-loading module: "' + item + '"...')
-			return require('./' + item)
+			let plugin = this._cache[item]
+			if (!plugin) {
+				console.log('[Gulpfiles] lazy-loading module: "' + item + '"...')
+				plugin = this._cache[item] = require('./' + item)
+			}
+			return plugin
 		},
 	})
 })
