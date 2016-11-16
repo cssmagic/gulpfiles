@@ -19,6 +19,7 @@ const availableTasks = [
 	'del',
 	'stylus',
 	'concat',
+	'copy',
 ]
 builders._cache = {}
 
