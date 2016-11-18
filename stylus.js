@@ -4,9 +4,10 @@ module.exports = ({src, dest, options = {}, config = {}}) => {
 
 	const path = require('path')
 	const gulp = require('gulp')
+	const gulpIf = require('gulp-if')
 	const stylus = require('gulp-stylus')
 	const rename = require('gulp-rename')
-	const gulpIf = require('gulp-if')
+
 	const nib = require('nib')
 	const brush = require('cmui-brush')
 
@@ -20,12 +21,13 @@ module.exports = ({src, dest, options = {}, config = {}}) => {
 	config = {
 		rename: '...',
 		nib: false,
+		brush: false,
 		'...': '...',
 	}
 	*/
 
 	// util
-	function getFilename() {
+	function getFilename(src, dest, options, config) {
 		let file = ''
 		let simpleGlob = ''
 		if (isString(config.rename)) {
@@ -47,13 +49,13 @@ module.exports = ({src, dest, options = {}, config = {}}) => {
 		}
 
 		let destFile
+		let destPath = options.dest && options.dest.cwd ?
+			path.resolve(options.dest.cwd, dest) : dest
 		if (file) {
 			file = file.replace(/\.styl$/, '.css')
-			destFile = options.dest && options.dest.cwd ?
-				path.resolve(options.dest.cwd, dest, file) :
-				path.resolve(dest, file)
+			destFile = path.resolve(destPath, file)
 		} else {
-			destFile = path.join(dest, '*.css')
+			destFile = path.join(destPath, '*.css')
 		}
 		return path.relative(process.cwd(), destFile)
 	}
@@ -75,23 +77,34 @@ module.exports = ({src, dest, options = {}, config = {}}) => {
 		}
 		cfg.use = plugins
 
-		const stream = gulp.src(src, options.src)
+		return gulp
+			.src(src, options.src)
 			.pipe(stylus(cfg))
 			.pipe(gulpIf(!!config.rename, rename(config.rename)))
 			.pipe(gulp.dest(dest, options.dest))
 			.on('finish', function () {
-				// for pretty output
-				let file = getFilename()
+				// output src
+				const glob = Array.isArray(src) ? src : [src]
+				const logSrc = '[Gulpfiles] [stylus] compiling: '
+				if (glob.length > 1) {
+					console.log(logSrc)
+					glob.forEach(function (item) {
+						console.log('  - ' + item)
+					})
+				} else {
+					console.log(logSrc + glob[0])
+				}
+
+				// output pipes
+				let file = getFilename(src, dest, options, config)
 				// TODO: how to get file name from stream? (ToT)
 
-				console.log('[Gulpfiles] [stylus] compiling stylus: ' + src)
-				console.log('[Gulpfiles] [stylus] output css: ' + file)
+				console.log('[Gulpfiles] [stylus] ===> ' + file)
 			})
 			.on('error', function (err) {
 				console.error(err.message)
 				this.emit('end')
 			})
-		return stream
 	}
 
 }

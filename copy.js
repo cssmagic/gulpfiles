@@ -61,7 +61,6 @@ module.exports = ({src, dest, options = {}, config = {}}) => {
 			.on('finish', function () {
 				// output src
 				const glob = Array.isArray(src) ? src : [src]
-				if (!glob.length) return
 				const logSrc = '[Gulpfiles] [copy] copying: '
 				if (glob.length > 1) {
 					console.log(logSrc)
