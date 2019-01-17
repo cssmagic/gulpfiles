@@ -1,6 +1,6 @@
 {
   "name": "gulpfiles",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "homepage": "https://github.com/cssmagic/gulpfiles",
   "author": "cssmagic <cssmagic.cn@gmail.com>",
   "description": "Build Gulp tasks rapidly.",
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "del": "2.*",
-    "gulp": "github:gulpjs/gulp#4.0",
+    "gulp": "^4.0.0",
     "gulp-concat": "2.*",
     "gulp-if": "^2.0.1",
     "gulp-rename": "1.*",
