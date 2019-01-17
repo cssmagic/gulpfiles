@@ -1,6 +1,6 @@
 {
   "name": "gulpfiles",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "homepage": "https://github.com/cssmagic/gulpfiles",
   "author": "cssmagic <cssmagic.cn@gmail.com>",
   "description": "Build Gulp tasks rapidly.",
@@ -16,6 +16,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "cmui-brush": "^0.1.1",
     "del": "2.*",
     "gulp": "^4.0.0",
     "gulp-concat": "2.*",
